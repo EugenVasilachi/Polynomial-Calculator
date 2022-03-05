@@ -14,6 +14,8 @@ public class Polynomial {
     }
 
     public void handleInput(String input) {
+        if(input.equals(""))
+            return;
         String[] poly_str = input.split("(?=[+-])");
         create_list(poly_str);
     }
@@ -85,7 +87,23 @@ public class Polynomial {
         poly = MultiplyMonomial.multiply(this, p);
         return poly;
     }
+    public void derivative() {
+        LinkedList<Monomial> newPoly = new LinkedList<>();
+        for(Monomial mono : poly) {
+            if(mono.getExponent() > 1) {
+                Monomial newMono = new Monomial(mono.getCoefficient() * mono.getExponent(), mono.getExponent() - 1);
+                newPoly.add(newMono);
+            }
+            else if(mono.getExponent() == 1) {
+                Monomial newMono = new Monomial(mono.getCoefficient(), 0);
+                newPoly.add(newMono);
+            }
+        }
+        poly = newPoly;
+    }
     public String toString(){
+        if(poly.isEmpty())
+            return "";
         String str = "";
         for(Monomial m : poly) {
             if(m.getCoefficient() == 0)
