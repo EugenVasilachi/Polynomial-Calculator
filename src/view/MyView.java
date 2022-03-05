@@ -126,6 +126,20 @@ public class MyView extends JFrame implements ActionListener {
                 }
             }
         }
+        else if(event.equals("*")) {
+            if(t1.getText().equals("") || t2.getText().equals(""))
+                t3.setText("You have to write 2 polynomials");
+            else {
+                Polynomial p1 = new Polynomial();
+                Polynomial p2 = new Polynomial();
+                p1.handleInput(t1.getText());
+                p2.handleInput(t2.getText());
+                if(e.getSource() == b3){   /// SUB
+                    polynomial_total = p1.multiply(p2);
+                    t3.setText("The result:" + p1.toString() + "\n");
+                }
+            }
+        }
         else if(event.equals("CE")){
             t3.setText("");
         }
