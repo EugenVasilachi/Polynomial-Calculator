@@ -1,25 +1,51 @@
 package view;
-import model.Monomial;
-import model.Polynomial;
+import controller.MyController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.LinkedList;
 
-public class MyView extends JFrame implements ActionListener {
+public class MyView extends JFrame {
     private JTextField  t1, t2;
     private JTextArea t3;
     private JLabel l1, l2;
     private JPanel p1;
     private JButton b1, b2, b3, b4, b5, b6, b7;
-    private Polynomial polynomial_total;
-    private LinkedList<Monomial> poly_list;
 
-    public MyView() {
-        polynomial_total = new Polynomial();
-        poly_list = new LinkedList<>();
+    public JTextField getT1() {
+        return t1;
+    }
+    public JTextField getT2() {
+        return t2;
+    }
+    public JTextArea getT3() {
+        return t3;
+    }
+    public JButton getB1() {
+        return b1;
+    }
+    public JButton getB2() {
+        return b2;
+    }
+    public JButton getB3() {
+        return b3;
+    }
+    public JButton getB4() {
+        return b4;
+    }
+    public JButton getB5() {
+        return b5;
+    }
+    public JButton getB6() {
+        return b6;
+    }
+    public JButton getB7() {
+        return b7;
+    }
+    public void setT1(JTextField t1) {
+        this.t1 = t1;
+    }
+
+    public MyView(MyController controller) {
 
         this.setBackground(new Color(200,200,255));
         this.setPreferredSize(new Dimension(500,500));
@@ -59,13 +85,13 @@ public class MyView extends JFrame implements ActionListener {
         b5.setFocusable(false);
         b6.setFocusable(false);
         b7.setFocusable(false);
-        b1.addActionListener(this);
-        b2.addActionListener(this);
-        b3.addActionListener(this);
-        b4.addActionListener(this);
-        b5.addActionListener(this);
-        b6.addActionListener(this);
-        b7.addActionListener(this);
+        b1.addActionListener(controller);
+        b2.addActionListener(controller);
+        b3.addActionListener(controller);
+        b4.addActionListener(controller);
+        b5.addActionListener(controller);
+        b6.addActionListener(controller);
+        b7.addActionListener(controller);
 
         t1.setBackground(new Color(0xADD8E6));
         t2.setBackground(new Color(0xADD8E6));
@@ -106,82 +132,5 @@ public class MyView extends JFrame implements ActionListener {
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String event = e.getActionCommand();
-        Polynomial p1 = new Polynomial();
-        Polynomial p2 = new Polynomial();
-        p1.handleInput(t1.getText());
-        if(event.equals("+")) {
-            p2.handleInput(t2.getText());
-            if(t1.getText().equals("") || t2.getText().equals(""))
-                t3.setText("You have to write 2 polynomials");
-            else {
-                if(e.getSource() == b1){   /// ADD
-                    poly_list = p1.add(p2);
-                    t3.setText("The result:" + p1.toString() + "\n");
-                }
-            }
-        }
-        else if(event.equals("-")) {
-            p2.handleInput(t2.getText());
-            if(t1.getText().equals("") || t2.getText().equals(""))
-                t3.setText("You have to write 2 polynomials");
-            else {
-                if(e.getSource() == b2){   /// SUB
-                    poly_list = p1.sub(p2);
-                    t3.setText("The result:" + p1.toString() + "\n");
-                }
-            }
-        }
-        else if(event.equals("*")) {
-            p2.handleInput(t2.getText());
-            if(t1.getText().equals("") || t2.getText().equals(""))
-                t3.setText("You have to write 2 polynomials");
-            else {
-                if(e.getSource() == b3){   /// MULTIPLY
-                    polynomial_total.setPoly(p1.multiply(p2));
-                    t3.setText("The result:" + polynomial_total.toString() + "\n");
-                }
-            }
-        }
-        else if(event.equals("/")) {
-            p2.handleInput(t2.getText());
-            if(t1.getText().equals("") || t2.getText().equals(""))
-                t3.setText("You have to write 2 polynomials");
-            else {
-                if(e.getSource() == b4){   /// DIVISION
-                    //Polynomial newPoly = p1.division(p2);
-                    Polynomial[] result1 = p1.division(p2);
-                    t3.setText("The result: the quotient:" + result1[0].toString() + "\n" +
-                            "the reminder: " + result1[1].toString() + "\n");
-                }
-            }
-        }
-        else if(event.equals("derivative")) {
-            if(t1.getText().equals(""))
-                t3.setText("You have to write a polynomial");
-            else {
-                if(e.getSource() == b6){   /// DERIVATIVE
-                    p1.derivative();
-                    t3.setText("The result:" + p1.toString() + "\n");
-                }
-            }
-        }
-        else if(event.equals("integral")) {
-            if(t1.getText().equals(""))
-                t3.setText("You have to write a polynomial");
-            else {
-                if(e.getSource() == b7){   /// INTEGRAL
-                    p1.integral();
-                    t3.setText("The result:" + p1.toString() + "+c\n");
-                }
-            }
-        }
-        else if(event.equals("CE")){
-            t3.setText("");
-        }
     }
 }

@@ -1,7 +1,5 @@
 package model;
 
-import java.sql.SQLOutput;
-import java.util.Collection;
 import java.util.LinkedList;
 
 public class Polynomial {
