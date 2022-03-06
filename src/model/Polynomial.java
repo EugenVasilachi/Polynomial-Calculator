@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.SQLOutput;
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class Polynomial {
@@ -8,10 +10,24 @@ public class Polynomial {
     public Polynomial(){
         poly = new LinkedList<>();
     }
+    /*public Polynomial(LinkedList<Monomial> list) {
+        poly = list;
+    }
+    public Polynomial(Polynomial p) {
+        poly = p.getPoly();
+    }*/
+    public Polynomial(Monomial mono) {
+        poly = new LinkedList<>();
+        poly.add(mono);
+    }
 
     public LinkedList<Monomial> getPoly(){
         return poly;
     }
+    public void setPoly(LinkedList<Monomial> poly){
+        this.poly = poly;
+    }
+
 
     public void handleInput(String input) {
         if(input.equals(""))
@@ -84,8 +100,9 @@ public class Polynomial {
         return poly;
     }
     public LinkedList<Monomial> multiply(Polynomial p) {
-        poly = MultiplyMonomial.multiply(this, p);
-        return poly;
+        //poly = MultiplyMonomial.multiply(this, p);
+        //return poly;
+        return MultiplyMonomial.multiply(this, p);
     }
     public void derivative() {
         LinkedList<Monomial> newPoly = new LinkedList<>();
@@ -100,6 +117,43 @@ public class Polynomial {
             }
         }
         poly = newPoly;
+    }
+    public void integral() {
+        LinkedList<Monomial> newPoly = new LinkedList<>();
+        for(Monomial mono : poly) {
+            if(mono.getExponent() == 0) {
+                Monomial newMono = new Monomial(mono.getCoefficient(), 1);
+                newPoly.add(newMono);
+            }
+            else {
+                Monomial newMono = new Monomial((float) mono.getCoefficient() / (mono.getExponent() + 1), mono.getExponent() + 1);
+                newPoly.add(newMono);
+            }
+        }
+        poly = newPoly;
+    }
+    public Polynomial[] division(Polynomial q){
+        Polynomial p = this;
+        Polynomial diffPoly = new Polynomial();
+        Polynomial quotient = new Polynomial();
+        Polynomial reminder = new Polynomial();
+        Monomial newMono = new Monomial(0, 0);
+        while(p.getPoly().getFirst().getExponent() >= q.getPoly().getFirst().getExponent()) {
+            newMono.setCoefficient(p.getPoly().getFirst().getCoefficient() / q.getPoly().getFirst().getCoefficient());
+            newMono.setExponent(p.getPoly().getFirst().getExponent() - q.getPoly().getFirst().getExponent());
+            Monomial newMono2 = new Monomial(newMono.getCoefficient(), newMono.getExponent());
+            quotient.getPoly().add(newMono2);
+            diffPoly.setPoly(q.multiply(new Polynomial(newMono)));
+            LinkedList<Monomial> list = p.sub(diffPoly);
+            list.removeFirst();
+            p.setPoly(list);
+        }
+        if(!p.getPoly().isEmpty())
+            reminder.setPoly(p.getPoly());
+        Polynomial[] result = new Polynomial[2];
+        result[0] = quotient;
+        result[1] = reminder;
+        return result;
     }
     public String toString(){
         if(poly.isEmpty())

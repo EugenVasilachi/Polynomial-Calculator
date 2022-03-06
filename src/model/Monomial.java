@@ -1,20 +1,20 @@
 package model;
 
 public class Monomial {
-    private int coefficient;
+    private float coefficient;
     private int exponent;
 
-    public Monomial(int coefficient, int exponent) {
+    public Monomial(float coefficient, int exponent) {
         this.coefficient = coefficient;
         this.exponent = exponent;
     }
-    public int getCoefficient(){
+    public float getCoefficient(){
         return coefficient;
     }
     public int getExponent(){
         return exponent;
     }
-    public void setCoefficient(int coefficient){
+    public void setCoefficient(float coefficient){
         this.coefficient = coefficient;
     }
     public void setExponent(int exponent){
@@ -24,36 +24,56 @@ public class Monomial {
         String mono;
         switch(exponent){
             case 0:
-                mono = String.valueOf(coefficient);
-                return mono;
+                if (coefficient == (int) coefficient) {
+                    mono = String.valueOf((int)coefficient);
+                    return mono;
+                }
+                else {
+                    mono = String.format("%.2f", coefficient);   // float with 2 decimals
+                    return mono;
+                }
             case 1:
-                switch (coefficient) {
-                    case 1:
-                        mono = "x";
+                if(coefficient == 1.0) {
+                    mono = "x";
+                    return mono;
+                }
+                else if(coefficient == -1.0) {
+                    mono = "-x";
+                    return mono;
+                }
+                else {
+                    if (coefficient == (int) coefficient) {
+                        mono = String.valueOf((int)coefficient) + "x";
                         return mono;
-                    case -1:
-                        mono = "-x";
-                        return mono;
-                    default:
+                    }
+                    else {
                         mono = String.valueOf(coefficient) + "x";
                         return mono;
+                    }
                 }
             default:
-                switch (coefficient) {
-                    case 1:
-                        mono = "x^" + String.valueOf(exponent);
+                if(coefficient == 1.0) {
+                    mono = "x^" + String.valueOf(exponent);
+                    return mono;
+                }
+                else if(coefficient == -1.0) {
+                    mono = "-x^" + String.valueOf(exponent);
+                    return mono;
+                }
+                else {
+                    if (coefficient == (int) coefficient) {
+                        mono = String.valueOf((int)coefficient) + "x^" + String.valueOf(exponent);
                         return mono;
-                    case -1:
-                        mono = "-x^" + String.valueOf(exponent);
+                    }
+                    else {
+                        mono = String.format("%.2f", coefficient) + "x^" + String.valueOf(exponent);  // float with 2 decimals
                         return mono;
-                    default:
-                        mono = String.valueOf(coefficient) + "x^" + String.valueOf(exponent);
-                        return mono;
+                    }
                 }
         }
     }
     public Monomial multiply(Monomial m1, Monomial m2) {
-        int coeff = m1.getCoefficient() * m2.getCoefficient();
+        float coeff = m1.getCoefficient() * m2.getCoefficient();
         int exp = m1.getExponent() + m2.getExponent();
         return new Monomial(coeff, exp);
     }

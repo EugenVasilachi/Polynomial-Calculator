@@ -14,10 +14,12 @@ public class MyView extends JFrame implements ActionListener {
     private JLabel l1, l2;
     private JPanel p1;
     private JButton b1, b2, b3, b4, b5, b6, b7;
-    private LinkedList<Monomial> polynomial_total;
+    private Polynomial polynomial_total;
+    private LinkedList<Monomial> poly_list;
 
     public MyView() {
-        polynomial_total = new LinkedList<Monomial>();
+        polynomial_total = new Polynomial();
+        poly_list = new LinkedList<>();
 
         this.setBackground(new Color(200,200,255));
         this.setPreferredSize(new Dimension(500,500));
@@ -29,7 +31,7 @@ public class MyView extends JFrame implements ActionListener {
         b1 = new JButton("+");
         b2 = new JButton("-");
         b3 = new JButton("*");
-        b4 = new JButton("=");
+        b4 = new JButton("/");
         b5 = new JButton("CE");
         b6 = new JButton("derivative");
         b7 = new JButton("integral");
@@ -72,8 +74,8 @@ public class MyView extends JFrame implements ActionListener {
 
         p1.setLayout(null);
         p1.setBackground(new Color(0xD0E1F9));
-        t1.setBounds(15, 30, 250, 30);
-        t2.setBounds(15, 190, 250, 30);
+        t1.setBounds(15, 40, 250, 30);
+        t2.setBounds(15, 160, 250, 30);
         t3.setBounds(15, 270, 450, 150);
         p1.setBounds(10, 10, 500, 500);
         b1.setBounds(280, 65, 45,45);
@@ -83,8 +85,8 @@ public class MyView extends JFrame implements ActionListener {
         b5.setBounds(400, 430, 60, 20);
         b6.setBounds(280, 120, 170, 30);
         b7.setBounds(280, 160, 170, 30);
-        l1.setBounds(15, 10, 150, 25);
-        l2.setBounds(15, 160, 150,25);
+        l1.setBounds(15, 20, 150, 25);
+        l2.setBounds(15, 140, 150,25);
 
         p1.add(t1);
         p1.add(t2);
@@ -105,9 +107,6 @@ public class MyView extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
-    public LinkedList getPolynomial_total(){
-        return polynomial_total;
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -121,7 +120,7 @@ public class MyView extends JFrame implements ActionListener {
                 t3.setText("You have to write 2 polynomials");
             else {
                 if(e.getSource() == b1){   /// ADD
-                    polynomial_total = p1.add(p2);
+                    poly_list = p1.add(p2);
                     t3.setText("The result:" + p1.toString() + "\n");
                 }
             }
@@ -132,7 +131,7 @@ public class MyView extends JFrame implements ActionListener {
                 t3.setText("You have to write 2 polynomials");
             else {
                 if(e.getSource() == b2){   /// SUB
-                    polynomial_total = p1.sub(p2);
+                    poly_list = p1.sub(p2);
                     t3.setText("The result:" + p1.toString() + "\n");
                 }
             }
@@ -142,9 +141,22 @@ public class MyView extends JFrame implements ActionListener {
             if(t1.getText().equals("") || t2.getText().equals(""))
                 t3.setText("You have to write 2 polynomials");
             else {
-                if(e.getSource() == b3){   /// SUB
-                    polynomial_total = p1.multiply(p2);
-                    t3.setText("The result:" + p1.toString() + "\n");
+                if(e.getSource() == b3){   /// MULTIPLY
+                    polynomial_total.setPoly(p1.multiply(p2));
+                    t3.setText("The result:" + polynomial_total.toString() + "\n");
+                }
+            }
+        }
+        else if(event.equals("/")) {
+            p2.handleInput(t2.getText());
+            if(t1.getText().equals("") || t2.getText().equals(""))
+                t3.setText("You have to write 2 polynomials");
+            else {
+                if(e.getSource() == b4){   /// DIVISION
+                    //Polynomial newPoly = p1.division(p2);
+                    Polynomial[] result1 = p1.division(p2);
+                    t3.setText("The result: the quotient:" + result1[0].toString() + "\n" +
+                            "the reminder: " + result1[1].toString() + "\n");
                 }
             }
         }
@@ -152,9 +164,19 @@ public class MyView extends JFrame implements ActionListener {
             if(t1.getText().equals(""))
                 t3.setText("You have to write a polynomial");
             else {
-                if(e.getSource() == b6){   /// SUB
+                if(e.getSource() == b6){   /// DERIVATIVE
                     p1.derivative();
                     t3.setText("The result:" + p1.toString() + "\n");
+                }
+            }
+        }
+        else if(event.equals("integral")) {
+            if(t1.getText().equals(""))
+                t3.setText("You have to write a polynomial");
+            else {
+                if(e.getSource() == b7){   /// INTEGRAL
+                    p1.integral();
+                    t3.setText("The result:" + p1.toString() + "+c\n");
                 }
             }
         }
