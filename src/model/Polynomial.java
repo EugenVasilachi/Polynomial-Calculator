@@ -8,15 +8,12 @@ public class Polynomial {
     public Polynomial(){
         poly = new LinkedList<>();
     }
-    /*public Polynomial(LinkedList<Monomial> list) {
-        poly = list;
-    }
-    public Polynomial(Polynomial p) {
-        poly = p.getPoly();
-    }*/
     public Polynomial(Monomial mono) {
         poly = new LinkedList<>();
         poly.add(mono);
+    }
+    public Polynomial(LinkedList<Monomial> list) {
+        poly = list;
     }
 
     public LinkedList<Monomial> getPoly(){
