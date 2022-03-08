@@ -32,7 +32,7 @@ public class MyController implements ActionListener {
             else {
                 if (e.getSource() == myGUI.getB1()) {   /// ADD
                     poly_list = p1.add(p2);
-                    myGUI.getT3().setText("The result:" + p1.toString() + "\n");
+                    myGUI.getT3().setText("The result:" + p1 + "\n");
                 }
             }
         } else if (event.equals("-")) {
@@ -42,7 +42,7 @@ public class MyController implements ActionListener {
             else {
                 if (e.getSource() == myGUI.getB2()) {   /// SUB
                     poly_list = p1.sub(p2);
-                    myGUI.getT3().setText("The result:" + p1.toString() + "\n");
+                    myGUI.getT3().setText("The result:" + p1 + "\n");
                 }
             }
         } else if (event.equals("*")) {
@@ -72,7 +72,7 @@ public class MyController implements ActionListener {
             else {
                 if (e.getSource() == myGUI.getB6()) {   /// DERIVATIVE
                     p1.derivative();
-                    myGUI.getT3().setText("The result:" + p1.toString() + "\n");
+                    myGUI.getT3().setText("The result:" + p1 + "\n");
                 }
             }
         } else if (event.equals("integral")) {
@@ -81,7 +81,7 @@ public class MyController implements ActionListener {
             else {
                 if (e.getSource() == myGUI.getB7()) {   /// INTEGRAL
                     p1.integral();
-                    myGUI.getT3().setText("The result:" + p1.toString() + "+c\n");
+                    myGUI.getT3().setText("The result:" + p1 + "+c\n");
                 }
             }
         } else if (event.equals("CE")) {

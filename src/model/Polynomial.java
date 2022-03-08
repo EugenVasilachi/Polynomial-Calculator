@@ -95,8 +95,6 @@ public class Polynomial {
         return poly;
     }
     public LinkedList<Monomial> multiply(Polynomial p) {
-        //poly = MultiplyMonomial.multiply(this, p);
-        //return poly;
         return MultiplyMonomial.multiply(this, p);
     }
     public void derivative() {
